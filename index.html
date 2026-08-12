@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>The Puppy Artists BlogFolio</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fascinate&family=Italiana&family=Marcellus&family=VT323&display=swap" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+
+        <!-- Menu Bar, UI is inspired by Macintosh --->
+         <nav class="menu-bar">
+            <div class="menu-items">
+                <span class="logo">The Puppy Artists</span>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="blog.html">Blog</a> 
+                <a href="paintings.html">Paintings</a>
+                <a href="photos.html">Photos</a>
+            </div>
+
+            <div id="multi-time-clocks">
+                <span>Local: <span id="clock-local"></span></span> |
+                <span>PH: <span id="clock-ph"></span></span> |
+                <span>JP: <span id="clock-jp"></span></span>
+            </div>
+        </nav>
+
+        <!-- CRT Scanline overlay -->
+        <div class="retro-scanlines"></div>
+    
+        <!-- Desktop -->
+         <main class="desktop">
+
+            <!-- Main Window itself -->
+             <div class="window">
+
+                <!-- Title Bar -->
+                <div class="title-bar">
+                    <div class="close-box"></div>
+                    <div class="title-text">Hard Drive</div>
+                </div>
+
+                <!-- Content Area -->
+                 <div class="window-content">
+                     <header class="intro-header">
+                        <h1>PuppyArtists.exe // Root Directory</h1>
+                        <p>Welcome to the Puppy Artists BlogFolio! A look into an aspiring Amateur Artist's journey.</p>
+                     </header>
+
+                     <!-- Folder Grid -->
+                     <section class="folder-grid">
+
+                        <a href="about.html" class="folder-icon">
+                            <div class="icon-img">📁</div>
+                            <span>About</span>
+                        </a>
+
+                        <a href="blog.html" class="folder-icon">
+                            <div class="icon-img">📄</div>
+                            <span>Blog</span>
+                        </a>
+
+                        <a href="paintings.html" class="folder-icon">
+                            <div class="icon-img">🎨</div>
+                            <span>Paintings</span>
+                        </a>
+
+                        <a href="photos.html" class="folder-icon">
+                            <div class="icon-img">📷</div>
+                            <span>Photography</span>
+                        </a>   
+
+                    </section>  
+                </div>
+            </div>
+        </main>
+
+        <script src="js/script.js"></script>
+    </body>
+</html>
