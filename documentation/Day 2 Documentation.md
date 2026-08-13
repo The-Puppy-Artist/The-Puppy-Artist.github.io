@@ -26,3 +26,5 @@
 * **Next Step:** Proceed with working on blog.html along with its layout, so style.css is gonna get some new stuff added again.
 * **Gallery Shielding:** Build a shielding layer for all parts of the website.
 * **Phone Browser:** A user or prototype viewer said it isnt padded, and as I checked, the layout was wacky on mobile. Note to work on that.
+* **Decap-CMS:** Set this up tomorrow alongside the blog.html.
+* **Setup a Newsletter:** Use Buttondown, substac, or Mailchimp.
