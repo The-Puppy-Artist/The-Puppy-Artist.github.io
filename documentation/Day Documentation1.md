@@ -1,7 +1,7 @@
 # Project Portfolio: The Puppy Artists BlogFolio
-**Author:** Gabriel Alistair Tandoc Estrada
-**Date:** August/12/2026
-**Phase:** 1 - Foundation and UI Skeleton
+* **Author:** Gabriel Alistair Tandoc Estrada
+* **Date:** August/12/2026
+* **Phase:** 1 - Foundation and UI Skeleton
 
 ---
 
