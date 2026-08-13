@@ -20,6 +20,7 @@
 ## 3. Issues Faced:
 * **Lack of Scrolling feature:** Due to the website being fixed I locked it's scrolling feature, but with how long my introduction is, I had to add it in. I could try to restyle the side scrolling bar... 
 * **HTML and CSS Typos:** HTML Typos and CSS typos were faced again
+* **CSS got Funky:** Deployed the website and it got funky, updated CSS. If you're wondering what went funky, my pfp became too big for the page.
 
 ## 4. Roadmap:
 * **Next Step:** Proceed with working on blog.html along with its layout, so style.css is gonna get some new stuff added again.
