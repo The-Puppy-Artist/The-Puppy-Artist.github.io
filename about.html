@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>The Puppy Artists BlogFolio</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fascinate&family=Italiana&family=Marcellus&family=VT323&display=swap" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+
+        <!-- Menu Bar, UI is inspired by Macintosh --->
+         <nav class="menu-bar">
+            <div class="menu-items">
+                <span class="logo">The Puppy Artists</span>
+                <a href="index.html">Home</a>
+                <a href="about.html" class="active">About</a>
+                <a href="blog.html">Blog</a> 
+                <a href="paintings.html">Paintings</a>
+                <a href="photos.html">Photos</a>
+            </div>
+
+            <div id="multi-time-clocks">
+                <span>Local: <span id="clock-local"></span></span> |
+                <span>PH: <span id="clock-ph"></span></span> |
+                <span>JP: <span id="clock-jp"></span></span>
+            </div>
+        </nav>
+
+        <!-- CRT Scanline overlay -->
+        <div class="retro-scanlines"></div>
+    
+        <!-- Desktop -->
+         <main class="desktop">
+
+            <!-- Main Window itself (Added bio-window for wider max-width) -->
+             <div class="window bio-window">
+
+                <!-- Title Bar -->
+                <div class="title-bar">
+                    <div class="close-box"></div>
+                    <div class="title-text">About_The_Artist.txt</div>
+                </div>
+
+                <!-- Content Area -->
+                 <!-- Layout will be a bit different -->
+                 <div class="window-content bio-layout">
+
+                    <!-- Sidebar style: Left Column features a photo of me, some details and countdowns -->
+                    <aside class="bio-sidebar">
+
+                        <!-- Photo of me with frame -->
+                         <div class="bio-photo-frame">
+                            <img src="assets/pfp/profile1.jpg" alt="Gabriel - The Puppy Artist">
+                            <!-- Note: Make Assets folder to contain photos, folder must also contain folder named pfp with tag name 'profile(add number here).jpg' -->
+                            <!-- Note: Make sure to change the photo every once and a while -->
+                        </div>
+
+                        <!-- Personal Details -->
+                        <div class="bio-details">
+                            <p><strong>STANDARD INFO:</strong></p>
+                            <p><strong>NAME:</strong> Gabriel Alistair Tandoc Estrada</p>
+                            <p><strong>Gender:</strong> Male</p>
+                            <p><strong>Sexual Orientation:</strong> Heterosexual</p>
+                            <p><strong>D.O.B:</strong> 10/10/2005</p>
+                            <p><strong>HEIGHT:</strong> 167cm (I tend to say Im 5'5, but take it with a grain of salt)</p>
+                            <p><strong>WEIGHT:</strong> 65.5kg</p>
+                            <p><strong>EYES:</strong> Dark Brown</p>
+                            <br>
+                            <p><strong>PREFERENCES:</strong></p>
+                            <p><strong>LIKES:</strong> Retro Stuff (Includes old songs, I prefer Yacht Rock, City Pop, in general retro songs), Vintage looking cameras, Spicy Foods, Sweets (Either standard sweet or Bittersweet), Japanese Culture, Cute Things, beer or alcohol in general, Color Palette Books, Photography guide books</p>
+                            <p><strong>DISLIKES:</strong> Overtly negative folks (in general folks who are always miserable, I'm patient but, the only person who can help you is yourself, trust me, Love yourself), Fully Bitter things, Crowded places, etc (still learning more about myself on what I dislike, to be updated)</p>
+                            <br>
+                            <p><strong>OTHER INFO:</strong></p>
+                            <p><strong>AFFILIATION/S:</strong> Independent Artist</p>
+                            <p><strong>OCCUPATIONS:</strong> Amateur Artist, and Student</p>
+                            <p><strong>MEDIUMS:</strong> Singing, Instruments, Painting, and Photography</p>
+                        </div>
+
+                        <!-- Countdown Timer -->
+                         <div class="countdown-box">
+                            <div>// TIME ONLINE //</div>
+                            <div id="lived-counter">CALCULATING...</div>
+                            <br>
+                            <div>// NEXT LEVEL UP //</div>
+                            <div id="bday-counter">CALCULATING...</div>
+                        </div>
+                    </aside>
+
+
+                     <!-- Right Column: Biography Text -->
+                    <section class="bio-text">
+                        <header class="intro-header">
+                            <h1>System Profile: Gabriel</h1>
+                            <p>Initializing Biography...</p>
+                        </header>
+
+                        <!-- Fixed 'styles' typo to 'style' -->
+                        <div style="margin-top: 20px; line-height: 1.5;">
+                            <p>Welcome to the Blogfolio. Designed and designated under Project Portfolio, this is a personal project made during my one-month break before my third year of college.</p>
+                            <p>So, who am I? I'm Gabriel, although I also go by another name: The Puppy Artist. The origin of this name is rooted in a song called "Puppy Princess" by Hot Freaks. A certain someone in my life introduced me to this song and said it reminded her of me, so the "Puppy" tag stuck! I don't mean to brag, but I am confident in how I look—puppy-faced~.</p>
+
+                            <!-- Quote Box -->
+                             <div class="quote-box">
+                                <p>"Unlike Soviet tech, their potential will remain locked because their time has run out. But me? Not yet, I can still unlock it." - The Puppy Artist</p>
+                            </div>
+
+                            <br>
+                            <p>Anyway, enough about that. I am an Amateur Artist. The term "amateur" doesn't necessarily mean incompetent—it means this:</p>
+                            <br>
+                            <p>According to the Merriam-Webster Dictionary, the term "amateur" is derived from the Latin word "amator," which means "lover" or "friend," and is connected to the Latin word "amare," which means "to love."</p>
+                            <br>
+                            <p>Essentially, an amateur is someone who engages in an activity for the love of it, rather than for financial gain or professional recognition. Although... if it ever does come to that, I want it to happen naturally. So, for now, I pay it no mind and focus on just having fun, because I believe in the power of passion.</p>
+                            <br>
+                            <p>Anyway, what exactly do I do? What are my mediums, passions, and the fields I dabble in? Originally, I was just a humble kid watching TV on a crisp summer day after fourth grade. Then, I was thrust into a position to choose an instrument to play. Out of pressure, I chose the drums. I thought it would be a waste of time at first, but it became my firsthand grasp of the arts.</p>
+                            <p>It started with music, although its roots stretch much further back in my life. My father is a frequent listener of the classics—retro songs that still had passion woven into them, often due to the limitations of technology at the time. I truly believe that limitations and passion can cook up something beautiful. I see it in action, from The Beatles to the music of the 40s, 50s, 60s, 70s, 80s, and 90s. Hence the aesthetic of this website.</p>
+                            <p>Even though it started early, it is constantly evolving. It eventually led me to become a musician, a singer, a painter, and lastly, a photographer. It's funny how a simple nudge to learn an instrument led to an awakening. Looking back now, I thank my past self for leading me here—and I especially thank my mother for encouraging me to take that first step.</p>
+                            <p>I've probably reached the maximum length for this "About" page; it was supposed to be brief, but it seems I've gone overboard. And so I leave you with this... let what I do speak for itself. Read my blog articles on what I've been doing, look at the progress of my paintings, and explore the photos of what I see. Lastly, I hope you enjoy your stay here!</p>
+
+                        </div>
+                    </section>  
+                </div>
+            </div>
+        </main>
+
+        <script src="js/script.js"></script>
+    </body>
+</html>

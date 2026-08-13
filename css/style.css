@@ -1,16 +1,14 @@
 /*Retro Palette based on the stuff I found on Pintrest*/
 :root {
+    --desktop-color: #212E40;
+    --window-bg: #E1D9C9;
+    --window-border: #424846;
+    --text-dark: #171b17;
 
---desktop-color: #212E40;
---window-bg: #E1D9C9;
---window-border: #424846;
---text-dark: #171b17;
-
-/*Accent colors*/
---accent-red: #AC5045;
---accent-moss: #424C21;
---accent-gold: #DFA05D;
-
+    /*Accent colors*/
+    --accent-red: #AC5045;
+    --accent-moss: #424C21;
+    --accent-gold: #DFA05D;
 }
 
 /*Base Style*/
@@ -20,8 +18,10 @@ body {
     font-family: "VT323", monospace;
     margin: 0;
     padding: 0;
-    height: 100vh;
-    overflow: hidden; /* Prevents Desktop Scrolling*/
+    /* FIX: Changed to min-height so long pages can grow */
+    min-height: 100vh; 
+    /* FIX: Allows vertical scrolling but prevents sideways scrolling */
+    overflow-x: hidden; 
 }
 
 /* TOP MENU BAR */
@@ -56,127 +56,222 @@ body {
 
 /* Window */
 .desktop {
-padding: 40px;
-display: flex;
-justify-content: center;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
 }
 
 .window {
-background-color: var(--window-bg);
-border: 2px solid var(--window-border);
-width: 100%;
-max-width: 700px;
-box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5); /*Heavy Drop Shadow*/
+    background-color: var(--window-bg);
+    border: 2px solid var(--window-border);
+    width: 100%;
+    max-width: 700px;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5); /*Heavy Drop Shadow*/
 }
 
 /* Striped Window Bar */
 .title-bar {
-background: repeating-linear-gradient(
-to bottom,
-var(--window-border),
-var(--window-border) 1px,
-var(--window-bg) 1px,
-var(--window-bg) 2px
-);
-height: 24px;
-border-bottom: 2px solid var(--window-border);
-display: flex;
-align-items: center;
-position: relative;
-padding: 0 10px;
+    background: repeating-linear-gradient(
+        to bottom,
+        var(--window-border),
+        var(--window-border) 1px,
+        var(--window-bg) 1px,
+        var(--window-bg) 2px
+    );
+    height: 24px;
+    border-bottom: 2px solid var(--window-border);
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 0 10px;
 }
 
 .close-box {
-width: 12px;
-height: 12px;
-background-color: var(--window-bg);
-border: 1px solid var(--window-border);
-position: absolute;
-left: 10px;
+    width: 12px;
+    height: 12px;
+    background-color: var(--window-bg);
+    border: 1px solid var(--window-border);
+    position: absolute;
+    left: 10px;
 }
 
 .title-text {
-background-color: var(--window-bg);
-padding: 0 15px;
-margin: 0 auto;
-font-weight: bold;
-font-size: 14px;
-border-left: 2px solid var(--window-border);
-border-right: 2px solid var(--window-border);    
+    background-color: var(--window-bg);
+    padding: 0 15px;
+    margin: 0 auto;
+    font-weight: bold;
+    font-size: 14px;
+    border-left: 2px solid var(--window-border);
+    border-right: 2px solid var(--window-border);    
 }
 
 /* Inner Content */
 .window-content {
-padding: 25px;
+    padding: 25px;
 }
 
 .intro-header h1 {
-font-size: 20px;
-margin-top: 0;
-border-bottom: 2px dotted var(--window-border);
-padding-bottom: 10px;
+    font-size: 20px;
+    margin-top: 0;
+    border-bottom: 2px dotted var(--window-border);
+    padding-bottom: 10px;
 }
 
 /* Folder Icons */
 .folder-grid {
-display: flex;
-gap: 30px;
-margin-top: 30px;
+    display: flex;
+    gap: 30px;
+    margin-top: 30px;
 }
 
 .folder-icon {
-display: flex;
-flex-direction: column;
-align-items: center;
-text-decoration: none;
-color: var(--text-dark);
-width: 100px;
-padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-dark);
+    width: 100px;
+    padding: 10px;
 }
 
 .folder-icon .icon-img {
-font-size: 40px; /* Using emojis as retro icons for now */
-margin-bottom: 5px;
+    font-size: 40px; /* Using emojis as retro icons for now */
+    margin-bottom: 5px;
 }
 
 .folder-icon span {
-font-size: 12px;
- background-color: var(--window-bg);
-padding: 2px 5px;
+    font-size: 12px;
+    background-color: var(--window-bg);
+    padding: 2px 5px;
 }
 
 .folder-icon:hover span {
-background-color: var(--text-dark);
-color: var(--window-bg);
+    background-color: var(--text-dark);
+    color: var(--window-bg);
+}
+
+/* Biography Page Layout */
+.window.bio-window {
+    max-width: 950px; 
+}
+
+.bio-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.bio-sidebar {
+    flex: 0 0 250px; /* Locks the left column to a specific width */
+}
+
+.bio-text {
+    flex: 1; /* FIX: Allows the text column to automatically fill the remaining window space */
+}
+
+/* The Photo Frame */
+.bio-photo-frame {
+    background-color: var(--window-bg);
+    border: 4px solid var(--window-border);
+    padding: 8px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2), 4px 4px 0px rgba(0,0,0,0.3);
+    margin-bottom: 20px;
+}
+
+.bio-photo-frame img {
+    width: 100%;
+    display: block;
+    border: 1px solid var(--window-border);
+    filter: grayscale(20%) contrast(110%); /* Slight retro filter */
+}
+
+/* Details and Quote */
+.bio-details p {
+    margin: 8px 0;
+    font-size: 14px;
+    border-bottom: 1px dashed var(--window-border);
+    padding-bottom: 4px;
+}
+
+.quote-box {
+    font-style: italic;
+    border-left: 4px solid var(--accent-gold);
+    padding: 15px;
+    margin: 20px 0;
+    background-color: rgba(0,0,0,0.05);
+}
+
+/* The Countdowns */
+.countdown-box {
+    background-color: var(--desktop-color);
+    color: var(--window-bg);
+    padding: 15px;
+    margin-top: 20px;
+    border: 2px solid var(--window-border);
+    text-align: center;
+    font-weight: bold;
 }
 
 /* Additionals */
 
 /* --- Scanline Overlay --- */
+/* --- Scanline Overlay --- */
 .retro-scanlines {
-position: fixed;
-top: 0;
-left: 0;
-width: 100vw;
- height: 100vh;
-/* Creates the repeating dark/light line effect */
-background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0) 50%,
-    rgba(0, 0, 0, 0.15) 50%,
-    rgba(0, 0, 0, 0.15)
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /* Creates the repeating dark/light line effect */
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0) 50%,
+        rgba(0, 0, 0, 0.15) 50%,
+        rgba(0, 0, 0, 0.15)
     );
-background-size: 100% 4px; /* Change '4px' to make lines thicker/thinner */
-z-index: 9999; /* Keeps it on top of the whole page */
-pointer-events: none; /* CRITICAL: Allows users to click through the overlay */
+    background-size: 100% 4px;
+    z-index: 9999; 
+    pointer-events: none; /* CRITICAL: Allows clicks to pass through */
+    
+    /* NEW: Animates the tiny lines downwards */
+    animation: scroll-micro-lines 1s linear infinite;
+}
+
+/* NEW: The thick, slightly bright "refresh bar" that rolls down the screen */
+.retro-scanlines::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 10vh;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.05) 50%,
+        rgba(255, 255, 255, 0)
+    );
+    animation: roll-refresh-bar 7s linear infinite;
+}
+
+/* --- CRT Animations --- */
+@keyframes scroll-micro-lines {
+    0% { background-position: 0 0; }
+    /* 20px is a multiple of the 4px background size, creating a seamless loop */
+    100% { background-position: 0 20px; } 
+}
+
+@keyframes roll-refresh-bar {
+    0% { transform: translateY(-10vh); }
+    100% { transform: translateY(110vh); }
 }
 
 /* --- Optional: Retro Clock Styling --- */
 #multi-time-clocks {
-font-family: 'Courier New', Courier, monospace; /* Fits the retro aesthetic */
-font-size: 14px;
-display: flex;
-gap: 15px;
-font-weight: bold;
+    font-family: 'Courier New', Courier, monospace; /* Fits the retro aesthetic */
+    font-size: 14px;
+    display: flex;
+    gap: 15px;
+    font-weight: bold;
 }
