@@ -124,3 +124,54 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     }
 });
+
+/* --- AUTOMATED DIRECTORY SCANNER --- */
+document.addEventListener("DOMContentLoaded", () => {
+    
+    const grid = document.getElementById('dynamic-folder-grid');
+    
+    // Only run this script if we are actually on the blog.html page
+    if (grid) {
+        // UPDATE THIS WITH YOUR ACTUAL GITHUB INFO (e.g., "Gabriel-Alistair/BlogFolio")
+        const githubRepo = "The-Puppy-Artist/The-Puppy-Artist.github.io"; 
+        
+        // The GitHub API endpoint to read the contents of a specific folder
+        const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/content/blog`;
+
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) throw new Error("Could not connect to the directory.");
+                return response.json();
+            })
+            .then(files => {
+                // Clear any loading text
+                grid.innerHTML = "";
+
+                // Loop through every file GitHub finds in that folder
+                files.forEach(file => {
+                    // We only want to create icons for markdown files
+                    if (file.name.endsWith('.md')) {
+                        
+                        // Create the visible text label (e.g., changing "2026-08-14-test.md" to "test.txt")
+                        let displayName = file.name.replace(/^[0-9]{4}-[0-9]{2}-[0-9]{2}-/, ''); // Strips the date
+                        displayName = displayName.replace('.md', '.txt'); // Changes extension for aesthetics
+
+                        // Build the HTML for the icon
+                        const fileLink = document.createElement('a');
+                        fileLink.href = `logTemplate.html?post=${file.name}`;
+                        fileLink.className = 'folder-icon';
+                        fileLink.innerHTML = `
+                            <div class="icon-img">📄</div>
+                            <span>${displayName}</span>
+                        `;
+
+                        // Drop the new icon onto the desktop!
+                        grid.appendChild(fileLink);
+                    }
+                });
+            })
+            .catch(error => {
+                grid.innerHTML = `<p style="color: var(--accent-red);">[SYSTEM ERROR]: ${error.message}</p>`;
+            });
+    }
+});
