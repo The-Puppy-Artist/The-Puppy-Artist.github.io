@@ -138,7 +138,7 @@ body {
 }
 
 /* Forces the emoji to act like a massive image */
-.folder-icon .folder-img {
+.folder-icon .icon-img {
     font-size: 90px; 
     line-height: 1; /* Prevents the massive font from creating weird invisible spacing */
     margin-bottom: 15px;
