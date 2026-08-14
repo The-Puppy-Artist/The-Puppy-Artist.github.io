@@ -1,5 +1,5 @@
 backend:
-  name: github
+  name: git-gateway
   repo: your-github-username/your-repo-name # Update this to your repo!
   branch: main # Or master, depending on your default branch
 
