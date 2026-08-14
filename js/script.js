@@ -66,3 +66,61 @@ if (!livedCounter || !bdayCounter) return;
 // Don't forget to tell the script to run this every second!
 setInterval(updateBioCountdown, 1000);
 updateBioCountdown();
+
+/* --- BLOG POST FETCHER & TRANSLATOR --- */
+document.addEventListener("DOMContentLoaded", () => {
+    
+    // 1. Check the URL for the '?post=' parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const postFile = urlParams.get('post');
+
+    // 2. If we are on the template page and a file is requested, fetch it!
+    if (postFile && document.querySelector('.post-body')) {
+        
+        // Point the fetch API to your Decap CMS content folder
+        fetch(`content/blog/${postFile}`)
+            .then(response => {
+                if (!response.ok) throw new Error("File not found in the directory.");
+                return response.text();
+            })
+            .then(text => {
+                // 3. Decap CMS puts data (title, date) at the top of the file between '---' lines.
+                // We need to split that "frontmatter" away from the main blog text.
+                const splitText = text.split('---');
+                
+                let markdownBody = text; 
+                let title = postFile.replace('.md', '');
+                let date = "Unknown Date";
+
+                // If the file has standard CMS formatting
+                if (splitText.length >= 3) {
+                    const frontmatter = splitText[1];
+                    markdownBody = splitText.slice(2).join('---'); // Everything after the top data
+
+                    // Extract the title and date using basic matching
+                    const titleMatch = frontmatter.match(/title:\s*"?([^"\n]+)"?/);
+                    if (titleMatch) title = titleMatch[1];
+                    
+                    const dateMatch = frontmatter.match(/date:\s*(.*?)\s/);
+                    if (dateMatch) date = new Date(dateMatch[1]).toLocaleDateString('en-US', {
+                        year: 'numeric', month: 'long', day: 'numeric'
+                    });
+                }
+
+                // 4. Inject the Title and Date into the retro UI
+                document.querySelector('.title-text').textContent = title + ".txt";
+                document.querySelector('.post-meta').innerHTML = `
+                    <strong>AUTHOR:</strong> The Puppy Artist <br>
+                    <strong>LOG DATE:</strong> ${date} <br>
+                    <strong>SUBJECT:</strong> ${title}
+                `;
+                
+                // 5. Use Marked.js to translate the markdown body into HTML and inject it
+                document.querySelector('.post-body').innerHTML = marked.parse(markdownBody);
+            })
+            .catch(error => {
+                // If it fails, show a classic system error message
+                document.querySelector('.post-body').innerHTML = `<p style="color: red;">[SYSTEM ERROR]: Cannot retrieve log entry. ${error.message}</p>`;
+            });
+    }
+});
