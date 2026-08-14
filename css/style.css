@@ -16,12 +16,11 @@ body {
     background-color: var(--desktop-color);
     color: var(--text-dark);
     font-family: "VT323", monospace;
+    font-size: 22px; /* Increased base font size for VT323 readability */
     margin: 0;
     padding: 0;
-    /* FIX: Changed to min-height so long pages can grow */
     min-height: 100vh; 
-    /* FIX: Allows vertical scrolling but prevents sideways scrolling */
-    overflow-x: hidden; 
+    overflow-x: hidden; /* Prevents Desktop Scrolling sideways */
 }
 
 /* TOP MENU BAR */
@@ -32,7 +31,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 2px 15px;
-    font-size: 14px;
+    font-size: 18px; 
     font-weight: bold;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
@@ -50,7 +49,7 @@ body {
 }
 
 .menu-bar .logo {
-    font-size: 16px;
+    font-size: 22px; 
     margin-right: 15px;
 }
 
@@ -100,7 +99,7 @@ body {
     padding: 0 15px;
     margin: 0 auto;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 16px; 
     border-left: 2px solid var(--window-border);
     border-right: 2px solid var(--window-border);    
 }
@@ -111,7 +110,7 @@ body {
 }
 
 .intro-header h1 {
-    font-size: 20px;
+    font-size: 28px; 
     margin-top: 0;
     border-bottom: 2px dotted var(--window-border);
     padding-bottom: 10px;
@@ -120,8 +119,10 @@ body {
 /* Folder Icons */
 .folder-grid {
     display: flex;
-    gap: 30px;
+    gap: 30px; /* FIX: Reduced slightly to ensure 4 icons fit on standard screens */
     margin-top: 30px;
+    flex-wrap: wrap; /* Allows files to drop to the next line automatically */
+    justify-content: center; /* FIX: Keeps wrapped icons perfectly centered */
 }
 
 .folder-icon {
@@ -130,19 +131,24 @@ body {
     align-items: center;
     text-decoration: none;
     color: var(--text-dark);
-    width: 100px;
+    width: 120px; 
     padding: 10px;
 }
 
-.folder-icon .icon-img {
-    font-size: 40px; /* Using emojis as retro icons for now */
-    margin-bottom: 5px;
+/* Forces the emoji to act like a massive image */
+.folder-icon .folder-img {
+    font-size: 90px; 
+    line-height: 1; /* Prevents the massive font from creating weird invisible spacing */
+    margin-bottom: 15px;
 }
 
+/* Keeps the text below the icon clean and readable */
 .folder-icon span {
-    font-size: 12px;
+    font-size: 20px; 
     background-color: var(--window-bg);
-    padding: 2px 5px;
+    padding: 4px 8px;
+    text-align: center;
+    border-radius: 2px; /* Gives the text highlight a slightly softer retro edge */
 }
 
 .folder-icon:hover span {
@@ -163,12 +169,12 @@ body {
 
 .bio-sidebar {
     flex: 0 0 250px; 
-    max-width: 250px; /* FIX: Locks the column from expanding */
+    max-width: 250px; 
 }
 
 .bio-text {
-    flex: 1;
-    min-width: 300px; /* FIX: Prevents text from squishing too much on small screens */
+    flex: 1; 
+    min-width: 300px; 
 }
 
 /* The Photo Frame */
@@ -178,27 +184,28 @@ body {
     padding: 8px;
     box-shadow: inset 0 0 5px rgba(0,0,0,0.2), 4px 4px 0px rgba(0,0,0,0.3);
     margin-bottom: 20px;
-    overflow: hidden; /* FIX: Chops off anything that tries to bleed out */
+    overflow: hidden; 
 }
 
 .bio-photo-frame img {
     width: 100%;
-    max-width: 100%; /* FIX: Forces the giant image to shrink to the frame */
-    height: auto;    /* FIX: Keeps the image proportions normal */
+    max-width: 100%; 
+    height: auto;    
     display: block;
     border: 1px solid var(--window-border);
-    filter: grayscale(20%) contrast(110%);
+    filter: grayscale(20%) contrast(110%); 
 }
 
 /* Details and Quote */
 .bio-details p {
     margin: 8px 0;
-    font-size: 14px;
+    font-size: 18px; 
     border-bottom: 1px dashed var(--window-border);
     padding-bottom: 4px;
 }
 
 .quote-box {
+    font-size: 24px; 
     font-style: italic;
     border-left: 4px solid var(--accent-gold);
     padding: 15px;
@@ -215,9 +222,67 @@ body {
     border: 2px solid var(--window-border);
     text-align: center;
     font-weight: bold;
+    font-size: 18px; 
 }
 
-/* Additionals */
+/* --- NEW: Blog Post "Pop-Up" Reading Window --- */
+/* --- Blog Explorer Layout --- */
+.window.blog-window {
+    max-width: 850px; /* Wide enough to perfectly fit 5 icons per row */
+}
+
+.window.post-window {
+    max-width: 750px; 
+}
+
+/* Replaces the standard close-box with colorful Mac OS X inspired boxes */
+.post-controls {
+    display: flex;
+    gap: 6px;
+    position: absolute;
+    left: 10px;
+}
+
+.post-close {
+    width: 14px;
+    height: 14px;
+    background-color: var(--accent-red);
+    border: 2px solid var(--window-border);
+    cursor: pointer;
+}
+
+.post-minimize {
+    width: 14px;
+    height: 14px;
+    background-color: var(--accent-gold);
+    border: 2px solid var(--window-border);
+    cursor: pointer;
+}
+
+/* Simulates a white piece of paper inside the window */
+.document-paper {
+    background-color: #fcfcfc;
+    color: #111;
+    padding: 30px;
+    border: 2px inset var(--window-border);
+    margin-top: 10px;
+    min-height: 400px;
+}
+
+.post-meta {
+    font-size: 18px;
+    color: #555;
+    border-bottom: 2px dashed #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.document-paper img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid var(--window-border);
+    margin: 20px 0;
+}
 
 /* --- Scanline Overlay --- */
 .retro-scanlines {
@@ -233,7 +298,7 @@ body {
         rgba(0, 0, 0, 0.15) 50%,
         rgba(0, 0, 0, 0.15)
     );
-    background-size: 100% 4px;
+    background-size: 100% 4px; 
     z-index: 9999; 
     pointer-events: none; 
     -webkit-animation: scroll-micro-lines 1s linear infinite;
@@ -278,8 +343,8 @@ body {
 
 /* --- Optional: Retro Clock Styling --- */
 #multi-time-clocks {
-    font-family: 'Courier New', Courier, monospace; /* Fits the retro aesthetic */
-    font-size: 14px;
+    font-family: 'Courier New', Courier, monospace; 
+    font-size: 16px; 
     display: flex;
     gap: 15px;
     font-weight: bold;

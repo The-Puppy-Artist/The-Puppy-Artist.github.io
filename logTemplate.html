@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>The Puppy Artists BlogFolio</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fascinate&family=Italiana&family=Marcellus&family=VT323&display=swap" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+
+        <!-- Menu Bar, UI is inspired by Macintosh --->
+         <nav class="menu-bar">
+            <div class="menu-items">
+                <span class="logo">The Puppy Artists</span>
+                <a href="index.html">Home</a>
+                <a href="about.html" class="active">About</a>
+                <a href="blog.html">Blog</a> 
+                <a href="paintings.html">Paintings</a>
+                <a href="photos.html">Photos</a>
+            </div>
+
+            <div id="multi-time-clocks">
+                <span>Local: <span id="clock-local"></span></span> |
+                <span>PH: <span id="clock-ph"></span></span> |
+                <span>JP: <span id="clock-jp"></span></span>
+            </div>
+        </nav>
+
+        <!-- CRT Scanline overlay -->
+        <div class="retro-scanlines"></div>
+    
+        <!-- Desktop -->
+         <main class="desktop">
+
+            <!-- Main Window itself (Added bio-window for wider max-width) -->
+             <div class="window posy-window">
+
+                
+                <!-- Title Bar -->
+                <div class="title-bar">
+                    <div class="post-controls"></div>
+                    <!-- Clicking these takes the user right back to the File Explorer! -->
+                    <a href="blog.html" class="post-close" title="Close File"></a>
+                    <a href="blog.html" class="post-minimize" title="Minimize File"></a>
+                </div>
+                <!-- Decap CMS will eventually swap the text below -->
+                 <div class="title-text">08/14/26.txt</div>
+                 </div>
+
+                <!-- Content Area -->
+                 <div class="window-content">
+
+                    <!-- White Paper Background -->
+                     <article class="document-paper">
+
+                        <!-- Header/META info -->
+                         <div class="post-meta">
+                            <strong>AUTHOR:</strong> The Puppy Artists <br>
+                            <strong>DATE:</strong> 08/14/26 <br>
+                            <strong>TIME:</strong> 10:30 AM <br>
+                            <strong>SUBJECT:</strong> Testing the archive system <br>
+                         </div>
+
+                        <!-- Post Body -->
+                         <div class="post-body">
+                            <p>This is a test log entry.</p>
+                            <p>We're seeing whether or not it works.</p>
+                            <p>Hopefully, it does.</p>
+                            <p>We'll also test the image if it works</p>
+
+                            <img src="assets/other photos/testImage.jpg" alt="Test Image" class="post-image">
+
+                            <p>And that's it for this test log entry. If you can see this, then the system works!</p>
+
+                            <!-- Example of a bottom gallery grid -->
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px;">
+                                <div style="background: #ccc; height: 150px; border: 2px solid var(--window-border);">[Gallery Image 1]</div>
+                                <div style="background: #ccc; height: 150px; border: 2px solid var(--window-border);">[Gallery Image 2]</div>
+                                <div style="background: #ccc; height: 150px; border: 2px solid var(--window-border);">[Gallery Image 3]</div>
+                            </div>
+                        </div>
+
+                     </article>
+                     
+                    </section>  
+                </div>
+            </div>
+        </main>
+
+        <script src="js/script.js"></script>
+    </body>
+</html>
