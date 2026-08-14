@@ -34,6 +34,8 @@ body {
     font-size: 18px; 
     font-weight: bold;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    white-space: nowrap; /* Prevents text from breaking to a new line */
+    overflow-x: auto; /* Adds a tiny scrollbar if the screen gets too small, preserving layout */
 }
 
 .menu-items a {
