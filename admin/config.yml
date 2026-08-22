@@ -4,7 +4,7 @@ backend:
   branch: main # Or master, depending on your default branch
 
 # Where to save uploaded images
-media_folder: "assets/uploads" 
+media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
 
 # Define your content structures here

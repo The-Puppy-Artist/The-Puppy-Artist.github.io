@@ -269,16 +269,16 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener('contextmenu', event => event.preventDefault());
 
 // Disables common shortcut keys like F12, Ctrl+Shift+I, Ctrl+U
-document.addEventListener('keydown', event => {
-    if (
-        event.key === 'F12' || 
-        (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'J' || event.key === 'C')) || 
-        (event.ctrlKey && event.key === 'U')
-    ) {
-        event.preventDefault();
-        alert("[SYSTEM LOCK]: Unauthorized inspection attempt blocked.");
-    }
-});
+//document.addEventListener('keydown', event => {
+    //if (
+        //event.key === 'F12' || 
+        //(event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'J' || event.key === 'C')) || 
+        //(event.ctrlKey && event.key === 'U')
+    //) {
+        //event.preventDefault();
+        //alert("[SYSTEM LOCK]: Unauthorized inspection attempt blocked.");
+    //}
+//});
 
 /* --- DYNAMIC PHOTO GALLERY SCANNER --- */
 document.addEventListener("DOMContentLoaded", () => {
