@@ -290,15 +290,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         fetch(apiUrl)
             .then(res => {
-                if (!res.ok) throw new Error("Could not load photo directory.");
+                if (!res.ok) throw new Error(`API returned status ${res.status}`);
                 return res.json();
             })
             .then(async files => {
                 const markdownFiles = files.filter(file => file.name.endsWith(".md"));
                 
-                if (markdownFiles.length > 0) {
-                    photoGrid.innerHTML = ""; // Clear fallback only if CMS photos exist
-                }
+                // If no CMS posts are found, leave the HTML fallback alone so it doesn't go blank!
+                if (markdownFiles.length === 0) return;
+
+                // Only clear if we actually have dynamic photos to add
+                let generatedHTML = "";
 
                 for (const file of markdownFiles) {
                     try {
@@ -309,7 +311,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (parts.length >= 3) {
                             const yamlData = parts[1];
                             
-                            // Flexible regex to grab image and caption regardless of quotes
                             const imgMatch = yamlData.match(/image:\s*(['"]?)(.*?)\1/);
                             const capMatch = yamlData.match(/caption:\s*(['"]?)(.*?)\1/);
 
@@ -317,28 +318,31 @@ document.addEventListener("DOMContentLoaded", () => {
                                 let imgPath = imgMatch[2].trim();
                                 let caption = capMatch && capMatch[2] ? capMatch[2].trim() : "Capture";
 
-                                // Ensure relative paths match repository structure
                                 if (imgPath.startsWith("/")) {
                                     imgPath = imgPath.substring(1);
                                 }
 
-                                const frame = document.createElement("div");
-                                frame.className = "photo-frame";
-                                frame.innerHTML = `
-                                    <img src="${imgPath}" alt="${caption}">
-                                    <div class="photo-caption" style="text-align:center; margin-top:5px; font-size:18px;">${caption}</div>
-                                    <div class="image-shield"></div>
+                                generatedHTML += `
+                                    <div class="photo-frame">
+                                        <img src="${imgPath}" alt="${caption}">
+                                        <div class="photo-caption" style="text-align:center; margin-top:5px; font-size:18px;">${caption}</div>
+                                        <div class="image-shield"></div>
+                                    </div>
                                 `;
-                                photoGrid.appendChild(frame);
                             }
                         }
                     } catch (err) {
                         console.error("Error parsing photo:", err);
                     }
                 }
+
+                // If we successfully generated frames, update the grid
+                if (generatedHTML !== "") {
+                    photoGrid.innerHTML = generatedHTML;
+                }
             })
             .catch(error => {
-                console.error("Photo Gallery Error:", error);
+                console.error("Photo Gallery API Error:", error);
             });
     }
 });
