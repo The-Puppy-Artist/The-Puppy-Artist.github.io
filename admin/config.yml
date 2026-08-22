@@ -10,11 +10,22 @@ public_folder: "/assets/uploads"
 # Define your content structures here
 collections:
   - name: "blog"
-    label: "Blog Post"
-    folder: "content/blog" # Where the markdown files will be saved
+    label: "Blog Posts"
+    folder: "content/blog"
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Publish Date", name: "date", widget: "datetime" }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Body", name: "body", widget: "markdown"}
+
+  # --- NEW: Photos Collection for CMS ---
+  - name: "photos"
+    label: "Photo Gallery"
+    folder: "content/photos"
+    create: true
+    identifier_field: "caption"
+    fields:
+      - {label: "Photo Caption", name: "caption", widget: "string"}
+      - {label: "Upload Image", name: "image", widget: "image"} # This opens an upload button!
+      - {label: "Date Taken", name: "date", widget: "datetime"}
+
