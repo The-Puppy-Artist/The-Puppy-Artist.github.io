@@ -280,7 +280,7 @@ document.addEventListener('contextmenu', event => event.preventDefault());
     //}
 //});
 
-/* --- DYNAMIC PHOTO GALLERY SCANNER --- */
+/* --- DYNAMIC PHOTO GALLERY SCANNER (LINE-BY-LINE PARSER) --- */
 document.addEventListener("DOMContentLoaded", () => {
     const photoGrid = document.getElementById("dynamic-photo-grid");
 
@@ -295,11 +295,8 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .then(async files => {
                 const markdownFiles = files.filter(file => file.name.endsWith(".md"));
-                
-                // If no CMS posts are found, leave the HTML fallback alone so it doesn't go blank!
                 if (markdownFiles.length === 0) return;
 
-                // Only clear if we actually have dynamic photos to add
                 let generatedHTML = "";
 
                 for (const file of markdownFiles) {
@@ -307,36 +304,40 @@ document.addEventListener("DOMContentLoaded", () => {
                         const response = await fetch(file.download_url);
                         const text = await response.text();
 
-                        const parts = text.split("---");
-                        if (parts.length >= 3) {
-                            const yamlData = parts[1];
-                            
-                            const imgMatch = yamlData.match(/image:\s*(['"]?)(.*?)\1/);
-                            const capMatch = yamlData.match(/caption:\s*(['"]?)(.*?)\1/);
+                        // Split frontmatter by lines to avoid regex bugs
+                        const lines = text.split("\n");
+                        let imgPath = "";
+                        let caption = "Capture";
 
-                            if (imgMatch && imgMatch[2]) {
-                                let imgPath = imgMatch[2].trim();
-                                let caption = capMatch && capMatch[2] ? capMatch[2].trim() : "Capture";
-
-                                if (imgPath.startsWith("/")) {
-                                    imgPath = imgPath.substring(1);
-                                }
-
-                                generatedHTML += `
-                                    <div class="photo-frame">
-                                        <img src="${imgPath}" alt="${caption}">
-                                        <div class="photo-caption" style="text-align:center; margin-top:5px; font-size:18px;">${caption}</div>
-                                        <div class="image-shield"></div>
-                                    </div>
-                                `;
+                        for (let line of lines) {
+                            let cleanLine = line.trim();
+                            if (cleanLine.startsWith("image:")) {
+                                imgPath = cleanLine.replace("image:", "").trim().replace(/['"]/g, "");
+                            }
+                            if (cleanLine.startsWith("caption:")) {
+                                caption = cleanLine.replace("caption:", "").trim().replace(/['"]/g, "");
                             }
                         }
+
+                        if (imgPath) {
+                            // Strip leading slash if present so it builds a clean relative path
+                            if (imgPath.startsWith("/")) {
+                                imgPath = imgPath.substring(1);
+                            }
+
+                            generatedHTML += `
+                                <div class="photo-frame">
+                                    <img src="${imgPath}" alt="${caption}">
+                                    <div class="photo-caption" style="text-align:center; margin-top:5px; font-size:18px;">${caption}</div>
+                                    <div class="image-shield"></div>
+                                </div>
+                            `;
+                        }
                     } catch (err) {
-                        console.error("Error parsing photo:", err);
+                        console.error("Error parsing photo file:", err);
                     }
                 }
 
-                // If we successfully generated frames, update the grid
                 if (generatedHTML !== "") {
                     photoGrid.innerHTML = generatedHTML;
                 }
