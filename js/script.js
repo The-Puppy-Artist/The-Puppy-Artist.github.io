@@ -279,3 +279,60 @@ document.addEventListener('keydown', event => {
         alert("[SYSTEM LOCK]: Unauthorized inspection attempt blocked.");
     }
 });
+
+/* --- DYNAMIC PHOTO GALLERY SCANNER --- */
+document.addEventListener("DOMContentLoaded", () => {
+    const photoGrid = document.getElementById("dynamic-photo-grid");
+
+    if (photoGrid) {
+        const githubRepo = "The-Puppy-Artist/The-Puppy-Artist.github.io";
+        const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/content/photos`;
+
+        fetch(apiUrl)
+            .then(res => {
+                if (!res.ok) throw new Error("Could not load photo directory.");
+                return res.json();
+            })
+            .then(files => {
+                // Keep your hardcoded test image or clear it out
+                // Let's clear or append dynamically:
+                photoGrid.innerHTML = ""; 
+
+                files.forEach(file => {
+                    if (file.name.endsWith(".md")) {
+                        fetch(file.download_url)
+                            .then(res => res.text())
+                            .then(text => {
+                                // Parse frontmatter between --- and ---
+                                const parts = text.split("---");
+                                if (parts.length >= 3) {
+                                    const yamlData = parts[1];
+                                    
+                                    // Extract image and caption using regex
+                                    const imgMatch = yamlData.match(/image:\s*(["']?)(.*?)\1/);
+                                    const capMatch = yamlData.match(/caption:\s*(["']?)(.*?)\1/);
+
+                                    if (imgMatch && imgMatch[2]) {
+                                        let imgPath = imgMatch[2].trim();
+                                        let caption = capMatch && capMatch[2] ? capMatch[2].trim() : "Capture";
+
+                                        // Build the frame
+                                        const frame = document.createElement("div");
+                                        frame.className = "photo-frame";
+                                        frame.innerHTML = `
+                                            <img src="${imgPath}" alt="${caption}">
+                                            <div class="photo-caption" style="text-align:center; margin-top:5px; font-size:18px;">${caption}</div>
+                                            <div class="image-shield"></div>
+                                        `;
+                                        photoGrid.appendChild(frame);
+                                    }
+                                }
+                            });
+                    }
+                });
+            })
+            .catch(error => {
+                console.error("Photo Gallery Error:", error);
+            });
+    }
+});
