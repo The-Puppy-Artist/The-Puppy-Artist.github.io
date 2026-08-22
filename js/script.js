@@ -263,3 +263,19 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     }
 });
+
+/* --- Deter Casual Inspection --- */
+// Disables the right-click context menu entirely
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+// Disables common shortcut keys like F12, Ctrl+Shift+I, Ctrl+U
+document.addEventListener('keydown', event => {
+    if (
+        event.key === 'F12' || 
+        (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'J' || event.key === 'C')) || 
+        (event.ctrlKey && event.key === 'U')
+    ) {
+        event.preventDefault();
+        alert("[SYSTEM LOCK]: Unauthorized inspection attempt blocked.");
+    }
+});
