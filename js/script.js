@@ -245,8 +245,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 return res.text();
             })
             .then(markdownText => {
-                // Decap CMS markdown files usually contain frontmatter metadata at the top.
-                // Let's strip standard frontmatter (between --- and ---) so it doesn't print raw text.
                 let cleanMarkdown = markdownText;
                 if (markdownText.startsWith("---")) {
                     const parts = markdownText.split("---");
@@ -255,8 +253,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 }
 
-                // Use the Marked library to translate Markdown into clean HTML
+                // Parse markdown and reveal the paper
                 markdownContent.innerHTML = marked.parse(cleanMarkdown);
+                markdownContent.classList.add("loaded"); // <--- Add this line
             })
             .catch(error => {
                 markdownContent.innerHTML = `<p style="color: var(--accent-red);">[Error: Could not load log contents.]</p>`;

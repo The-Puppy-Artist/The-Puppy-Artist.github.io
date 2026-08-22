@@ -313,6 +313,15 @@ body {
     line-height: 27px; /* Aligns text perfectly with the lines */
 }
 
+/* Start the paper hidden to prevent the flash of default text */
+#markdown-content:not(.loaded) {
+    opacity: 0;
+}
+
+#markdown-content {
+    transition: opacity 0.15s ease-in-out; /* Smooth fade-in when ready */
+}
+
 .post-meta {
     font-size: 18px;
     color: #555;
