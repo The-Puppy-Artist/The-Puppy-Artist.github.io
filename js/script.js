@@ -294,8 +294,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 return res.json();
             })
             .then(async files => {
-                // Keep any hardcoded item as a fallback, or clear if you want 100% dynamic
-                // Let's filter for .md files first
                 const markdownFiles = files.filter(file => file.name.endsWith(".md"));
                 
                 if (markdownFiles.length > 0) {
@@ -311,15 +309,18 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (parts.length >= 3) {
                             const yamlData = parts[1];
                             
-                            const imgMatch = yamlData.match(/image:\s*(["']?)(.*?)\1/);
-                            const capMatch = yamlData.match(/caption:\s*(["']?)(.*?)\1/);
+                            // Flexible regex to grab image and caption regardless of quotes
+                            const imgMatch = yamlData.match(/image:\s*(['"]?)(.*?)\1/);
+                            const capMatch = yamlData.match(/caption:\s*(['"]?)(.*?)\1/);
 
                             if (imgMatch && imgMatch[2]) {
                                 let imgPath = imgMatch[2].trim();
+                                let caption = capMatch && capMatch[2] ? capMatch[2].trim() : "Capture";
+
+                                // Ensure relative paths match repository structure
                                 if (imgPath.startsWith("/")) {
                                     imgPath = imgPath.substring(1);
-                                    }
-                                let caption = capMatch && capMatch[2] ? capMatch[2].trim() : "Capture";
+                                }
 
                                 const frame = document.createElement("div");
                                 frame.className = "photo-frame";
@@ -332,7 +333,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             }
                         }
                     } catch (err) {
-                        console.error("Error parsing individual photo:", err);
+                        console.error("Error parsing photo:", err);
                     }
                 }
             })
