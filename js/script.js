@@ -175,3 +175,53 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     }
 });
+
+/* --- DYNAMIC SIDEBAR SCANNER FOR logTemplate.html --- */
+document.addEventListener("DOMContentLoaded", () => {
+    const sidebarList = document.getElementById("sidebar-log-list");
+
+    if (sidebarList) {
+        // UPDATE THIS LINE TO YOUR EXACT GITHUB USERNAME / REPOSITORY
+        const githubRepo = "YOUR-USERNAME/YOUR-REPO-NAME"; 
+        
+        const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/content/blog`;
+
+        // Get the current post being read so we can highlight it in the menu
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentPost = urlParams.get("post");
+
+        fetch(apiUrl)
+            .then(res => {
+                if (!res.ok) throw new Error("Unable to read logs.");
+                return res.json();
+            })
+            .then(files => {
+                // This clears the "Scanning..." text!
+                sidebarList.innerHTML = ""; 
+
+                files.forEach(file => {
+                    if (file.name.endsWith(".md")) {
+                        // Clean up the name for the sidebar display
+                        let displayName = file.name.replace(/^[0-9]{4}-[0-9]{2}-[0-9]{2}-/, "").replace(".md", ".txt");
+
+                        const item = document.createElement("a");
+                        item.href = `logTemplate.html?post=${file.name}`;
+                        item.className = "sidebar-file-item";
+                        item.innerHTML = `📄 ${displayName}`;
+
+                        // Highlight the currently open log
+                        if (file.name === currentPost) {
+                            item.classList.add("active-log");
+                        }
+
+                        sidebarList.appendChild(item);
+                    }
+                });
+            })
+            .catch(error => {
+                // If it fails, it will show an error text instead of getting stuck
+                sidebarList.innerHTML = `<span style="color: var(--accent-red); font-size: 14px;">[ERR: Offline]</span>`;
+                console.error("Sidebar Error:", error);
+            });
+    }
+});
