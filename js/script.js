@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (sidebarList) {
         // UPDATE THIS LINE TO YOUR EXACT GITHUB USERNAME / REPOSITORY
-        const githubRepo = "YOUR-USERNAME/YOUR-REPO-NAME"; 
+        const githubRepo = "The-Puppy-Artist/The-Puppy-Artist.github.io"; 
         
         const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/content/blog`;
 
