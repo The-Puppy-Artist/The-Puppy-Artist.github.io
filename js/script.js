@@ -179,29 +179,30 @@ document.addEventListener("DOMContentLoaded", () => {
 /* --- DYNAMIC SIDEBAR SCANNER FOR logTemplate.html --- */
 document.addEventListener("DOMContentLoaded", () => {
     const sidebarList = document.getElementById("sidebar-log-list");
+    const markdownContent = document.getElementById("markdown-content");
+    const postTitleDisplay = document.getElementById("post-title-display");
 
+    // UPDATE THIS TO YOUR EXACT GITHUB USERNAME / REPOSITORY
+    const githubRepo = "The-Puppy-Artist/The-Puppy-Artist.github.io"; 
+
+    // Get the current post parameter from the URL (e.g., ?post=2026-08-22-test-run-3.md)
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentPost = urlParams.get("post");
+
+    const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/content/blog`;
+
+    // 1. Fetch the file list for the sidebar
     if (sidebarList) {
-        // UPDATE THIS LINE TO YOUR EXACT GITHUB USERNAME / REPOSITORY
-        const githubRepo = "The-Puppy-Artist/The-Puppy-Artist.github.io"; 
-        
-        const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/content/blog`;
-
-        // Get the current post being read so we can highlight it in the menu
-        const urlParams = new URLSearchParams(window.location.search);
-        const currentPost = urlParams.get("post");
-
         fetch(apiUrl)
             .then(res => {
                 if (!res.ok) throw new Error("Unable to read logs.");
                 return res.json();
             })
             .then(files => {
-                // This clears the "Scanning..." text!
-                sidebarList.innerHTML = ""; 
+                sidebarList.innerHTML = ""; // Clear "Scanning..."
 
                 files.forEach(file => {
                     if (file.name.endsWith(".md")) {
-                        // Clean up the name for the sidebar display
                         let displayName = file.name.replace(/^[0-9]{4}-[0-9]{2}-[0-9]{2}-/, "").replace(".md", ".txt");
 
                         const item = document.createElement("a");
@@ -209,7 +210,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         item.className = "sidebar-file-item";
                         item.innerHTML = `📄 ${displayName}`;
 
-                        // Highlight the currently open log
+                        // If no post is selected yet, default to the first file found
+                        if (!currentPost && file === files.find(f => f.name.endsWith(".md"))) {
+                            window.location.href = `logTemplate.html?post=${file.name}`;
+                            return;
+                        }
+
+                        // Highlight the active file
                         if (file.name === currentPost) {
                             item.classList.add("active-log");
                         }
@@ -219,9 +226,41 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             })
             .catch(error => {
-                // If it fails, it will show an error text instead of getting stuck
                 sidebarList.innerHTML = `<span style="color: var(--accent-red); font-size: 14px;">[ERR: Offline]</span>`;
                 console.error("Sidebar Error:", error);
+            });
+    }
+
+    // 2. If a specific post is requested, fetch and render its markdown contents
+    if (currentPost && markdownContent) {
+        const fileUrl = `https://raw.githubusercontent.com/${githubRepo}/main/content/blog/${currentPost}`;
+
+        if (postTitleDisplay) {
+            postTitleDisplay.textContent = currentPost.replace(".md", ".txt");
+        }
+
+        fetch(fileUrl)
+            .then(res => {
+                if (!res.ok) throw new Error("Post not found.");
+                return res.text();
+            })
+            .then(markdownText => {
+                // Decap CMS markdown files usually contain frontmatter metadata at the top.
+                // Let's strip standard frontmatter (between --- and ---) so it doesn't print raw text.
+                let cleanMarkdown = markdownText;
+                if (markdownText.startsWith("---")) {
+                    const parts = markdownText.split("---");
+                    if (parts.length >= 3) {
+                        cleanMarkdown = parts.slice(2).join("---").trim();
+                    }
+                }
+
+                // Use the Marked library to translate Markdown into clean HTML
+                markdownContent.innerHTML = marked.parse(cleanMarkdown);
+            })
+            .catch(error => {
+                markdownContent.innerHTML = `<p style="color: var(--accent-red);">[Error: Could not load log contents.]</p>`;
+                console.error("Post Load Error:", error);
             });
     }
 });
