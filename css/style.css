@@ -351,3 +351,37 @@ body {
     gap: 15px;
     font-weight: bold;
 }
+
+/* Gallery Grid */
+.photo-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.photo-frame {
+    position: relative; /* Crucial for the shield to work */
+    border: 4px solid var(--window-border);
+    background-color: var(--window-bg);
+    padding: 8px;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+}
+
+.photo-frame img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* The Invisible Shield */
+.image-shield {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10; /* Forces it to sit on top of the image */
+    background: transparent; 
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>The Puppy Artists BlogFolio</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fascinate&family=Italiana&family=Marcellus&family=VT323&display=swap" rel="stylesheet">
+        <link href="css/style.css?v=2" rel="stylesheet">
+    </head>
+    <body>
+
+        <!-- Menu Bar, UI is inspired by Macintosh --->
+         <nav class="menu-bar">
+            <div class="menu-items">
+                <span class="logo">The Puppy Artists</span>
+                <a href="index.html">Home</a>
+                <a href="about.html" class="active">About</a>
+                <a href="blog.html">Blog</a> 
+                <a href="paintings.html">Paintings</a>
+                <a href="photos.html">Photos</a>
+            </div>
+
+            <div id="multi-time-clocks">
+                <span>Local: <span id="clock-local"></span></span> |
+                <span>PH: <span id="clock-ph"></span></span> |
+                <span>JP: <span id="clock-jp"></span></span>
+            </div>
+        </nav>
+
+        <!-- CRT Scanline overlay -->
+        <div class="retro-scanlines"></div>
+    
+        <!-- Desktop -->
+         <main class="desktop">
+
+            <!-- Main Window itself (Added bio-window for wider max-width) -->
+             <div class="window blog-window" style="max-width: 1000px;">
+
+                
+                <!-- Title Bar -->
+                <div class="title-bar">
+                    <div class="close-box"></div>
+                    <div class="title-text">Drive // D:\Media\Photography</div>
+                </div>
+
+                <!-- Content Area -->
+                 <!-- Layout back to classic -->
+                 <div class="window-content">
+
+                        <!-- Introduction header -->
+                         <header class="intro-header">
+                            <h1>Directory: D:\Media\Photography</h1>
+                            <p>Explore my collection of photography works</p>
+                        </header>
+
+                     <!-- Photo Gallery Layout -->
+                    <section class="photo-grid">
+
+                        <!-- A Single Photo Item -->
+                         <div class="photo-frame">
+                            <img src="https://pub-d2b3ab3d24d24e72946e58f477eb2c35.r2.dev" alt="Photo Sample">
+                            <div class="photo-caption">Photo 1 Caption</div>
+                            <div class="image-shield">
+
+                            </div>
+
+                    </section>  
+                </div>
+            </div>
+        </main>
+
+        <script src="js/script.js"></script>
+    </body>
+</html>
