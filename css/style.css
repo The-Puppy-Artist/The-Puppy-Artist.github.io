@@ -233,8 +233,48 @@ body {
     max-width: 850px; /* Wide enough to perfectly fit 5 icons per row */
 }
 
+/* --- Split Log Reader Layout --- */
+.log-split-layout {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 950px;
+    align-items: flex-start; /* Keeps windows aligned at the top */
+}
+
+/* Sidebar Styling */
+.sidebar-window {
+    width: 180px;
+    flex-shrink: 0; 
+}
+
+.sidebar-content {
+    padding: 10px;
+}
+
+.sidebar-file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.sidebar-file-item {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-size: 18px;
+    padding: 4px;
+    border-radius: 2px;
+    word-break: break-word; /* Prevents long file names from breaking the window */
+}
+
+.sidebar-file-item:hover, .active-log {
+    background-color: var(--text-dark);
+    color: var(--window-bg);
+}
+
+/* Make the post window take up the rest of the space */
 .window.post-window {
-    max-width: 750px; 
+    flex-grow: 1; 
 }
 
 /* Replaces the standard close-box with colorful Mac OS X inspired boxes */
@@ -253,14 +293,6 @@ body {
     cursor: pointer;
 }
 
-.post-minimize {
-    width: 14px;
-    height: 14px;
-    background-color: var(--accent-gold);
-    border: 2px solid var(--window-border);
-    cursor: pointer;
-}
-
 /* Simulates a white piece of paper inside the window */
 .document-paper {
     background-color: #fcfcfc;
@@ -269,6 +301,14 @@ body {
     border: 2px inset var(--window-border);
     margin-top: 10px;
     min-height: 400px;
+    /* Vintage Striped Paper Effect */
+    background-image: repeating-linear-gradient(
+        transparent,
+        transparent 26px,
+        #e0e0e0 26px,
+        #e0e0e0 27px
+    );
+    line-height: 27px; /* Aligns text perfectly with the lines */
 }
 
 .post-meta {

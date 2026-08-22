@@ -18,8 +18,8 @@
             <div class="menu-items">
                 <span class="logo">The Puppy Artists</span>
                 <a href="index.html">Home</a>
-                <a href="about.html" class="active">About</a>
-                <a href="blog.html">Blog</a> 
+                <a href="about.html">About</a>
+                <a href="blog.html" class="active">Blog</a> 
                 <a href="paintings.html">Paintings</a>
                 <a href="photos.html">Photos</a>
             </div>
@@ -37,59 +37,73 @@
         <!-- Desktop -->
          <main class="desktop">
 
-            <!-- Main Window itself (Added bio-window for wider max-width) -->
-             <div class="window posy-window">
-
+            <!-- NEW: Split Layout Container -->
+            <div class="log-split-layout">
                 
-                <!-- Title Bar -->
-                <div class="title-bar">
-                    <div class="post-controls"></div>
-                    <!-- Clicking these takes the user right back to the File Explorer! -->
-                    <a href="blog.html" class="post-close" title="Close File"></a>
-                    <a href="blog.html" class="post-minimize" title="Minimize File"></a>
-                </div>
-                <!-- Decap CMS will eventually swap the text below -->
-                 <div class="title-text">08/14/26.txt</div>
-                 </div>
-
-                <!-- Content Area -->
-                 <div class="window-content">
-
-                    <!-- White Paper Background -->
-                     <article class="document-paper">
-
-                        <!-- Header/META info -->
-                         <div class="post-meta">
-                            <strong>AUTHOR:</strong> The Puppy Artists <br>
-                            <strong>DATE:</strong> 08/14/26 <br>
-                            <strong>TIME:</strong> 10:30 AM <br>
-                            <strong>SUBJECT:</strong> Testing the archive system <br>
-                         </div>
-
-                        <!-- Post Body -->
-                         <div class="post-body">
-                            <p>This is a test log entry.</p>
-                            <p>We're seeing whether or not it works.</p>
-                            <p>Hopefully, it does.</p>
-                            <p>We'll also test the image if it works</p>
-
-                            <img src="assets/other photos/testImage.jpg" alt="Test Image" class="post-image">
-
-                            <p>And that's it for this test log entry. If you can see this, then the system works!</p>
-
-                            <!-- Example of a bottom gallery grid -->
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px;">
-                                <div style="background: #ccc; height: 150px; border: 2px solid var(--window-border);">[Gallery Image 1]</div>
-                                <div style="background: #ccc; height: 150px; border: 2px solid var(--window-border);">[Gallery Image 2]</div>
-                                <div style="background: #ccc; height: 150px; border: 2px solid var(--window-border);">[Gallery Image 3]</div>
-                            </div>
+                <!-- Left Sidebar Window for File Navigation -->
+                <aside class="window sidebar-window">
+                    <div class="title-bar">
+                        <div class="post-controls">
+                            <!-- Clicking this takes the user right back to the File Explorer! -->
+                            <a href="blog.html" class="post-close" title="Close File"></a>
+                            <!-- Orange button successfully removed -->
                         </div>
+                    </div>
+                    
+                    <div class="sidebar-content">
+                        <!-- JavaScript will automatically inject the list of logs here -->
+                        <nav class="sidebar-file-list" id="sidebar-log-list">
+                            <span style="font-size: 16px;">Scanning...</span>
+                        </nav>
+                    </div>
+                </aside>
 
-                     </article>
-                     
-                    </section>  
+                <!-- Main Window itself (Reading Area) -->
+                 <div class="window post-window">
+                    
+                    <!-- Title Bar -->
+                    <div class="title-bar">
+                        <!-- Decap CMS will eventually swap the text below -->
+                        <div class="title-text" id="post-title-display">Document Viewer</div>
+                    </div>
+
+                    <!-- Content Area -->
+                     <div class="window-content">
+
+                        <!-- White Paper Background -->
+                         <article class="document-paper" id="markdown-content">
+
+                            <!-- Header/META info -->
+                             <div class="post-meta">
+                                <strong>AUTHOR:</strong> The Puppy Artists <br>
+                                <strong>DATE:</strong> 08/14/26 <br>
+                                <strong>TIME:</strong> 10:30 AM <br>
+                                <strong>SUBJECT:</strong> Testing the archive system <br>
+                             </div>
+
+                            <!-- Post Body -->
+                             <div class="post-body">
+                                <p>This is a test log entry.</p>
+                                <p>We're seeing whether or not it works.</p>
+                                <p>Hopefully, it does.</p>
+                                <p>We'll also test the image if it works</p>
+
+                                <img src="assets/other photos/testImage.jpg" alt="Test Image" class="post-image">
+
+                                <p>And that's it for this test log entry. If you can see this, then the system works!</p>
+
+                                <!-- Example of a bottom gallery grid -->
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px;">
+                                    <div style="background: #ccc; height: 150px; border: 2px solid var(--window-border);">[Gallery Image 1]</div>
+                                    <div style="background: #ccc; height: 150px; border: 2px solid var(--window-border);">[Gallery Image 2]</div>
+                                    <div style="background: #ccc; height: 150px; border: 2px solid var(--window-border);">[Gallery Image 3]</div>
+                                </div>
+                            </div>
+                         </article>
+                    </div>
                 </div>
-            </div>
+
+            </div> <!-- End of Split Layout Container -->
         </main>
 
         <script src="js/script.js"></script>
