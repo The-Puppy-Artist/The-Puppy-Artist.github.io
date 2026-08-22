@@ -239,13 +239,15 @@ body {
     gap: 20px;
     width: 100%;
     max-width: 950px;
-    align-items: flex-start; /* Keeps windows aligned at the top */
+    align-items: stretch; /* FIX: This forces both windows to be the exact same height! */
 }
 
 /* Sidebar Styling */
 .sidebar-window {
     width: 180px;
     flex-shrink: 0; 
+    display: flex;
+    flex-direction: column; /* Keeps the inside tidy while stretched */
 }
 
 .sidebar-content {
