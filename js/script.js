@@ -316,6 +316,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                             if (imgMatch && imgMatch[2]) {
                                 let imgPath = imgMatch[2].trim();
+                                if (imgPath.startsWith("/")) {
+                                    imgPath = imgPath.substring(1);
+                                    }
                                 let caption = capMatch && capMatch[2] ? capMatch[2].trim() : "Capture";
 
                                 const frame = document.createElement("div");
