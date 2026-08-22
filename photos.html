@@ -1,76 +1,349 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>The Puppy Artists BlogFolio</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Fascinate&family=Italiana&family=Marcellus&family=VT323&display=swap" rel="stylesheet">
-        <link href="css/style.css?v=2" rel="stylesheet">
-    </head>
-    <body>
+// Clock Function
+function updateClocks() {
+        const localTime = new Date();
+        
+        //Standard formatting option (HH:MM:SS, AM/PM)
+        const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
 
-        <!-- Menu Bar, UI is inspired by Macintosh --->
-         <nav class="menu-bar">
-            <div class="menu-items">
-                <span class="logo">The Puppy Artists</span>
-                <a href="index.html">Home</a>
-                <a href="about.html" class="active">About</a>
-                <a href="blog.html">Blog</a> 
-                <a href="paintings.html">Paintings</a>
-                <a href="photos.html">Photos</a>
-            </div>
 
-            <div id="multi-time-clocks">
-                <span>Local: <span id="clock-local"></span></span> |
-                <span>PH: <span id="clock-ph"></span></span> |
-                <span>JP: <span id="clock-jp"></span></span>
-            </div>
-        </nav>
 
-        <!-- CRT Scanline overlay -->
-        <div class="retro-scanlines"></div>
+        //1. Viewers Local time here
+        document.getElementById('clock-local').textContent = localTime.toLocaleTimeString([], options);
+
+        //2. Philippine Time (UTC+8)
+        const phTime = new Date(localTime.toLocaleString("en-US", { timeZone: "Asia/Manila" }));
+        document.getElementById('clock-ph').textContent = phTime.toLocaleTimeString([], options);
+
+        //3. Japanese Time (UTC+9)
+        const jpTime = new Date(localTime.toLocaleString("en-US", { timeZone: "Asia/Tokyo" }));
+        document.getElementById('clock-jp').textContent = jpTime.toLocaleTimeString([], options);
+
+};
+
+        //Runs immedietly so the clocks dont show blank for a second
+        updateClocks();
+
+        // Updates the clocks every 1000 milliseconds (1 second)
+        setInterval(updateClocks, 1000);
+
+
+//Biography Countdown Clock Function
+function updateBioCountdown() {
+        const livedCounter = document.getElementById('lived-counter');
+        const bdayCounter = document.getElementById('bday-counter');
+
+// If counter isnt on page, skips running this function or code
+if (!livedCounter || !bdayCounter) return;
+
+        const birthDate = new Date('2005-10-10T00:00:00');
+        const currentDate = new Date();
+
+        //1. Time Lived Counter
+        const timeLived = currentDate - birthDate;
+        const daysLived = Math.floor(timeLived / (1000 * 60 * 60 * 24));
+        const hoursLived = Math.floor((timeLived / (1000 * 60 * 60)) % 24);
+        const minutesLived = Math.floor((timeLived / (1000 * 60)) % 60);
+        const secondsLived = Math.floor((timeLived / 1000) % 60);
+        livedCounter.textContent = `${daysLived} days, ${hoursLived} hours, ${minutesLived} minutes, ${secondsLived} seconds`;
+
+        //2. Time Until Next Birthday Counter
+        const nextBirthday = new Date(currentDate.getFullYear(), 9, 10);
+        
+        //if birthday has passed this year, calculate for next year
+        // Moved this UP so it fixes the year before doing the math!
+        if (currentDate > nextBirthday) {
+                nextBirthday.setFullYear(currentDate.getFullYear() + 1);
+        }
+
+        const timeUntilBirthday = nextBirthday - currentDate;
+        const daysUntilBirthday = Math.floor(timeUntilBirthday / (1000 * 60 * 60 * 24));
+        const hoursUntilBirthday = Math.floor((timeUntilBirthday / (1000 * 60 * 60)) % 24);
+        const minutesUntilBirthday = Math.floor((timeUntilBirthday / (1000 * 60)) % 60);
+        const secondsUntilBirthday = Math.floor((timeUntilBirthday / 1000) % 60);
+        bdayCounter.textContent = `${daysUntilBirthday} days, ${hoursUntilBirthday} hours, ${minutesUntilBirthday} minutes, ${secondsUntilBirthday} seconds`;
+}
+
+// Don't forget to tell the script to run this every second!
+setInterval(updateBioCountdown, 1000);
+updateBioCountdown();
+
+/* --- BLOG POST FETCHER & TRANSLATOR --- */
+document.addEventListener("DOMContentLoaded", () => {
     
-        <!-- Desktop -->
-         <main class="desktop">
+    // 1. Check the URL for the '?post=' parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const postFile = urlParams.get('post');
 
-            <!-- Main Window itself (Added bio-window for wider max-width) -->
-             <div class="window blog-window" style="max-width: 1000px;">
-
+    // 2. If we are on the template page and a file is requested, fetch it!
+    if (postFile && document.querySelector('.post-body')) {
+        
+        // Point the fetch API to your Decap CMS content folder
+        fetch(`content/blog/${postFile}`)
+            .then(response => {
+                if (!response.ok) throw new Error("File not found in the directory.");
+                return response.text();
+            })
+            .then(text => {
+                // 3. Decap CMS puts data (title, date) at the top of the file between '---' lines.
+                // We need to split that "frontmatter" away from the main blog text.
+                const splitText = text.split('---');
                 
-                <!-- Title Bar -->
-                <div class="title-bar">
-                    <div class="close-box"></div>
-                    <div class="title-text">Drive // D:\Media\Photography</div>
-                </div>
+                let markdownBody = text; 
+                let title = postFile.replace('.md', '');
+                let date = "Unknown Date";
 
-                <!-- Content Area -->
-                 <!-- Layout back to classic -->
-                 <div class="window-content">
+                // If the file has standard CMS formatting
+                if (splitText.length >= 3) {
+                    const frontmatter = splitText[1];
+                    markdownBody = splitText.slice(2).join('---'); // Everything after the top data
 
-                        <!-- Introduction header -->
-                         <header class="intro-header">
-                            <h1>Directory: D:\Media\Photography</h1>
-                            <p>Explore my collection of photography works</p>
-                        </header>
+                    // Extract the title and date using basic matching
+                    const titleMatch = frontmatter.match(/title:\s*"?([^"\n]+)"?/);
+                    if (titleMatch) title = titleMatch[1];
+                    
+                    const dateMatch = frontmatter.match(/date:\s*(.*?)\s/);
+                    if (dateMatch) date = new Date(dateMatch[1]).toLocaleDateString('en-US', {
+                        year: 'numeric', month: 'long', day: 'numeric'
+                    });
+                }
 
-                     <!-- Photo Gallery Layout -->
-                    <section class="photo-grid" id="dynamic-photo-grid">
+                // 4. Inject the Title and Date into the retro UI
+                document.querySelector('.title-text').textContent = title + ".txt";
+                document.querySelector('.post-meta').innerHTML = `
+                    <strong>AUTHOR:</strong> The Puppy Artist <br>
+                    <strong>LOG DATE:</strong> ${date} <br>
+                    <strong>SUBJECT:</strong> ${title}
+                `;
+                
+                // 5. Use Marked.js to translate the markdown body into HTML and inject it
+                document.querySelector('.post-body').innerHTML = marked.parse(markdownBody);
+            })
+            .catch(error => {
+                // If it fails, show a classic system error message
+                document.querySelector('.post-body').innerHTML = `<p style="color: red;">[SYSTEM ERROR]: Cannot retrieve log entry. ${error.message}</p>`;
+            });
+    }
+});
 
-                        <!-- A Single Photo Item -->
-                         <div class="photo-frame">
-                            <img src="https://pub-d2b3ab3d24d24e72946e58f477eb2c35.r2.dev/DSCF6980.JPG" alt="Photo Sample">
-                            <div class="photo-caption" style="text-align:center; margin-top:5px; font-size:18px;">Teest Image</div>
-                            <div class="image-shield">
-                            </div>
-                        </div>
+/* --- AUTOMATED DIRECTORY SCANNER --- */
+document.addEventListener("DOMContentLoaded", () => {
+    
+    const grid = document.getElementById('dynamic-folder-grid');
+    
+    // Only run this script if we are actually on the blog.html page
+    if (grid) {
+        // UPDATE THIS WITH YOUR ACTUAL GITHUB INFO (e.g., "Gabriel-Alistair/BlogFolio")
+        const githubRepo = "The-Puppy-Artist/The-Puppy-Artist.github.io"; 
+        
+        // The GitHub API endpoint to read the contents of a specific folder
+        const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/content/blog`;
 
-                    </section>  
-                </div>
-            </div>
-        </main>
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) throw new Error("Could not connect to the directory.");
+                return response.json();
+            })
+            .then(files => {
+                // Clear any loading text
+                grid.innerHTML = "";
 
-        <script src="js/script.js"></script>
-    </body>
-</html>
+                // Loop through every file GitHub finds in that folder
+                files.forEach(file => {
+                    // We only want to create icons for markdown files
+                    if (file.name.endsWith('.md')) {
+                        
+                        // Create the visible text label (e.g., changing "2026-08-14-test.md" to "test.txt")
+                        let displayName = file.name.replace(/^[0-9]{4}-[0-9]{2}-[0-9]{2}-/, ''); // Strips the date
+                        displayName = displayName.replace('.md', '.txt'); // Changes extension for aesthetics
+
+                        // Build the HTML for the icon
+                        const fileLink = document.createElement('a');
+                        fileLink.href = `logTemplate.html?post=${file.name}`;
+                        fileLink.className = 'folder-icon';
+                        fileLink.innerHTML = `
+                            <div class="icon-img">📄</div>
+                            <span>${displayName}</span>
+                        `;
+
+                        // Drop the new icon onto the desktop!
+                        grid.appendChild(fileLink);
+                    }
+                });
+            })
+            .catch(error => {
+                grid.innerHTML = `<p style="color: var(--accent-red);">[SYSTEM ERROR]: ${error.message}</p>`;
+            });
+    }
+});
+
+/* --- DYNAMIC SIDEBAR SCANNER FOR logTemplate.html --- */
+document.addEventListener("DOMContentLoaded", () => {
+    const sidebarList = document.getElementById("sidebar-log-list");
+    const markdownContent = document.getElementById("markdown-content");
+    const postTitleDisplay = document.getElementById("post-title-display");
+
+    // UPDATE THIS TO YOUR EXACT GITHUB USERNAME / REPOSITORY
+    const githubRepo = "The-Puppy-Artist/The-Puppy-Artist.github.io"; 
+
+    // Get the current post parameter from the URL (e.g., ?post=2026-08-22-test-run-3.md)
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentPost = urlParams.get("post");
+
+    const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/content/blog`;
+
+    // 1. Fetch the file list for the sidebar
+    if (sidebarList) {
+        fetch(apiUrl)
+            .then(res => {
+                if (!res.ok) throw new Error("Unable to read logs.");
+                return res.json();
+            })
+            .then(files => {
+                sidebarList.innerHTML = ""; // Clear "Scanning..."
+
+                files.forEach(file => {
+                    if (file.name.endsWith(".md")) {
+                        let displayName = file.name.replace(/^[0-9]{4}-[0-9]{2}-[0-9]{2}-/, "").replace(".md", ".txt");
+
+                        const item = document.createElement("a");
+                        item.href = `logTemplate.html?post=${file.name}`;
+                        item.className = "sidebar-file-item";
+                        item.innerHTML = `📄 ${displayName}`;
+
+                        // If no post is selected yet, default to the first file found
+                        if (!currentPost && file === files.find(f => f.name.endsWith(".md"))) {
+                            window.location.href = `logTemplate.html?post=${file.name}`;
+                            return;
+                        }
+
+                        // Highlight the active file
+                        if (file.name === currentPost) {
+                            item.classList.add("active-log");
+                        }
+
+                        sidebarList.appendChild(item);
+                    }
+                });
+            })
+            .catch(error => {
+                sidebarList.innerHTML = `<span style="color: var(--accent-red); font-size: 14px;">[ERR: Offline]</span>`;
+                console.error("Sidebar Error:", error);
+            });
+    }
+
+    // 2. If a specific post is requested, fetch and render its markdown contents
+    if (currentPost && markdownContent) {
+        const fileUrl = `https://raw.githubusercontent.com/${githubRepo}/main/content/blog/${currentPost}`;
+
+        if (postTitleDisplay) {
+            postTitleDisplay.textContent = currentPost.replace(".md", ".txt");
+        }
+
+        fetch(fileUrl)
+            .then(res => {
+                if (!res.ok) throw new Error("Post not found.");
+                return res.text();
+            })
+            .then(markdownText => {
+                let cleanMarkdown = markdownText;
+                if (markdownText.startsWith("---")) {
+                    const parts = markdownText.split("---");
+                    if (parts.length >= 3) {
+                        cleanMarkdown = parts.slice(2).join("---").trim();
+                    }
+                }
+
+                // Parse markdown and reveal the paper
+                markdownContent.innerHTML = marked.parse(cleanMarkdown);
+                markdownContent.classList.add("loaded"); // <--- Add this line
+            })
+            .catch(error => {
+                markdownContent.innerHTML = `<p style="color: var(--accent-red);">[Error: Could not load log contents.]</p>`;
+                console.error("Post Load Error:", error);
+            });
+    }
+});
+
+/* --- Deter Casual Inspection --- */
+// Disables the right-click context menu entirely
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+// Disables common shortcut keys like F12, Ctrl+Shift+I, Ctrl+U
+//document.addEventListener('keydown', event => {
+    //if (
+        //event.key === 'F12' || 
+        //(event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'J' || event.key === 'C')) || 
+        //(event.ctrlKey && event.key === 'U')
+    //) {
+        //event.preventDefault();
+        //alert("[SYSTEM LOCK]: Unauthorized inspection attempt blocked.");
+    //}
+//});
+
+/* --- DYNAMIC PHOTO GALLERY SCANNER (LINE-BY-LINE PARSER) --- */
+document.addEventListener("DOMContentLoaded", () => {
+    const photoGrid = document.getElementById("dynamic-photo-grid");
+
+    if (photoGrid) {
+        const githubRepo = "The-Puppy-Artist/The-Puppy-Artist.github.io";
+        const apiUrl = `https://api.github.com/repos/${githubRepo}/contents/content/photos`;
+
+        fetch(apiUrl)
+            .then(res => {
+                if (!res.ok) throw new Error(`API returned status ${res.status}`);
+                return res.json();
+            })
+            .then(async files => {
+                const markdownFiles = files.filter(file => file.name.endsWith(".md"));
+                if (markdownFiles.length === 0) return;
+
+                let generatedHTML = "";
+
+                for (const file of markdownFiles) {
+                    try {
+                        const response = await fetch(file.download_url);
+                        const text = await response.text();
+
+                        // Split frontmatter by lines to avoid regex bugs
+                        const lines = text.split("\n");
+                        let imgPath = "";
+                        let caption = "Capture";
+
+                        for (let line of lines) {
+                            let cleanLine = line.trim();
+                            if (cleanLine.startsWith("image:")) {
+                                imgPath = cleanLine.replace("image:", "").trim().replace(/['"]/g, "");
+                            }
+                            if (cleanLine.startsWith("caption:")) {
+                                caption = cleanLine.replace("caption:", "").trim().replace(/['"]/g, "");
+                            }
+                        }
+
+                        if (imgPath) {
+                            // Strip leading slash if present so it builds a clean relative path
+                            if (imgPath.startsWith("/")) {
+                                imgPath = imgPath.substring(1);
+                            }
+
+                            generatedHTML += `
+                                <div class="photo-frame">
+                                    <img src="${imgPath}" alt="${caption}">
+                                    <div class="photo-caption" style="text-align:center; margin-top:5px; font-size:18px;">${caption}</div>
+                                    <div class="image-shield"></div>
+                                </div>
+                            `;
+                        }
+                    } catch (err) {
+                        console.error("Error parsing photo file:", err);
+                    }
+                }
+
+                if (generatedHTML !== "") {
+                    photoGrid.innerHTML += generatedHTML; // <--- The += fix is right here!
+                }
+            })
+            .catch(error => {
+                console.error("Photo Gallery API Error:", error);
+            });
+    }
+});
